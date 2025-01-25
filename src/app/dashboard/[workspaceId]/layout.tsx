@@ -1,7 +1,11 @@
-import { onAuthenticateUser } from "@/lib/actions/user.actions";
+import {
+  getNotifications,
+  onAuthenticateUser,
+} from "@/lib/actions/user.actions";
 import {
   getAllUserVideos,
   getWorkspaceFolders,
+  getWorkSpaces,
   verifyAccessToWorkspace,
 } from "@/lib/actions/workspace.actions";
 import { redirect } from "next/navigation";
@@ -10,6 +14,7 @@ import {
   QueryClient,
   HydrationBoundary,
 } from "@tanstack/react-query";
+import Sidebar from "@/components/Sidebar";
 
 type Props = {
   params: { workspaceId: string };
@@ -46,11 +51,26 @@ const DashboardWorkspaceIdLayout = async ({
   });
 
   await query.prefetchQuery({
+    queryKey: ["user-workspaces"],
+    queryFn: () => getWorkSpaces(),
+  });
+
+  await query.prefetchQuery({
     queryKey: ["user-notifications"],
     queryFn: () => getNotifications(),
   });
 
-  return <div>DashboardIdPage</div>;
+  return (
+    <HydrationBoundary state={dehydrate(query)}>
+      <div className="flex h-screen w-screen">
+        <Sidebar activeWorkspaceId={workspaceId} />
+        <div className="w-full pt-28 p-6 overflow-y-scroll overflow-x-hidden">
+          {/* <GlobalHeader workspace={hasAccess.data.workspace} /> */}
+          <div className="mt-4">{children}</div>
+        </div>
+      </div>
+    </HydrationBoundary>
+  );
 };
 
 export default DashboardWorkspaceIdLayout;

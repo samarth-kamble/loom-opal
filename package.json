@@ -11,6 +11,9 @@
   "dependencies": {
     "@clerk/nextjs": "^6.9.5",
     "@prisma/client": "^6.1.0",
+    "@radix-ui/react-dialog": "^1.1.5",
+    "@radix-ui/react-select": "^2.1.5",
+    "@radix-ui/react-separator": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.1",
     "@radix-ui/react-toast": "^1.2.4",
     "@tanstack/react-query": "^5.64.2",

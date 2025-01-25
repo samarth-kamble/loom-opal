@@ -1,9 +1,9 @@
 "use server";
 
 import { currentUser } from "@clerk/nextjs/server";
-import { db } from "../prisma";
+import { client } from "../prisma";
 
-export const onAuthenticationUser = async () => {
+export const onAuthenticateUser = async () => {
   try {
     const user = await currentUser();
     if (!user) {
@@ -11,5 +11,68 @@ export const onAuthenticationUser = async () => {
     }
 
     // Checking user exist in db or not
-  } catch (error) {}
+    const userExist = await client.user.findUnique({
+      where: {
+        clerkid: user.id,
+      },
+      include: {
+        workspace: {
+          where: {
+            User: {
+              clerkid: user.id,
+            },
+          },
+        },
+      },
+    });
+
+    if (userExist) {
+      return { status: 200, user: userExist };
+    }
+
+    // If user not exist in db then create new user
+    const newUser = await client.user.create({
+      data: {
+        clerkid: user.id,
+        email: user.emailAddresses[0].emailAddress,
+        firstname: user.firstName,
+        lastname: user.lastName,
+        image: user.imageUrl,
+        studio: {
+          create: {},
+        },
+        subscription: {
+          create: {},
+        },
+        workspace: {
+          create: {
+            name: `${user.firstName}'s Workspace`,
+            type: "PERSONAL",
+          },
+        },
+      },
+      include: {
+        workspace: {
+          where: {
+            User: {
+              clerkid: user.id,
+            },
+          },
+        },
+        subscription: {
+          select: {
+            plan: true,
+          },
+        },
+      },
+    });
+
+    if (newUser) {
+      return { status: 201, user: newUser };
+    }
+
+    return { status: 400 };
+  } catch (error) {
+    return { status: 500 };
+  }
 };

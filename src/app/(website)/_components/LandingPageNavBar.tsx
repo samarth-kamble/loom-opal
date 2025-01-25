@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Menu, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -25,12 +26,17 @@ const LandingPageNavBar = (props: Props) => {
         <Link href="/">Pricing</Link>
         <Link href="/">Contact</Link>
       </div>
-      <Link href="/auth/sign-in">
-        <Button className="text-base flex gap-x-2">
-          <User fill="#000" />
-          Login
-        </Button>
-      </Link>
+      <SignedOut>
+        <Link href="/auth/sign-in">
+          <Button className="text-base flex gap-x-2">
+            <User fill="#000" />
+            Login
+          </Button>
+        </Link>
+      </SignedOut>
+      <SignedIn>
+        <UserButton afterSignOutUrl="/" />
+      </SignedIn>
     </div>
   );
 };

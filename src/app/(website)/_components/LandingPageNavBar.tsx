@@ -1,32 +1,28 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { Menu, User } from "lucide-react";
+import { ArrowRight, Menu, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation"; // Import usePathname
 
 import React from "react";
-import { MaxWidthWrapper } from "./MaxWidthWrapper";
 import {
   Sheet,
   SheetContent,
-  SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-type Props = {};
-
-const LandingPageNavBar = (props: Props) => {
-  const pathname = usePathname(); // Get the current pathname
+const LandingPageNavBar = () => {
+  const pathname = usePathname();
 
   const isActive = (path: string) =>
     pathname === path ? "bg-[#7320DD] text-white" : "";
 
   return (
     <div className="flex w-full justify-between items-center">
-      <div className="text-3xl font-semibold flex items-center gap-x-3">
+      <div className="text-2xl font-semibold flex items-center gap-x-3">
         <Image alt="logo" src="/opal-logo.svg" width={40} height={40} />
         Opal
       </div>
@@ -66,7 +62,18 @@ const LandingPageNavBar = (props: Props) => {
           </Link>
         </SignedOut>
         <SignedIn>
-          <UserButton afterSignOutUrl="/" />
+          <div className="flex flex-row gap-3">
+            <Link
+              href={`/dashboard`}
+              className={buttonVariants({
+                variant: "ghost",
+                className: "text-2xl",
+              })}
+            >
+              Dashboard <ArrowRight />
+            </Link>
+            <UserButton afterSignOutUrl="/" />
+          </div>
         </SignedIn>
         <div>
           <Sheet>
@@ -88,7 +95,7 @@ const LandingPageNavBar = (props: Props) => {
                   <p className="text-2xl font-bold mt-1">Opal</p>
                 </Link>
               </SheetTitle>
-              <div className="flex flex-col gap-4 justify-center items-start md:items-center">
+              <div className="flex flex-col gap-4 justify-center items-start md:items-center space-y-3 mt-5">
                 <Link
                   href="/"
                   className={`py-2 px-5 font-semibold text-lg rounded-full hover:bg-[#7320DD]/80 ${isActive(

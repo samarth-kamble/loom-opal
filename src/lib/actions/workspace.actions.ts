@@ -158,3 +158,5 @@ export const getWorkSpaces = async () => {
     return { status: 400 };
   }
 };
+
+export const createWorkspace = async (name: string) => {};

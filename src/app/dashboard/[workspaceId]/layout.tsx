@@ -1,54 +1,38 @@
+import GlobalHeader from "@/components/global/GlobalHeader";
+import Sidebar from "@/components/Sidebar";
 import {
   getNotifications,
   onAuthenticateUser,
 } from "@/lib/actions/user.actions";
 import {
-  getAllUserVideos,
-  getWorkspaceFolders,
   getWorkSpaces,
   verifyAccessToWorkspace,
 } from "@/lib/actions/workspace.actions";
-import { redirect } from "next/navigation";
 import {
   dehydrate,
-  QueryClient,
   HydrationBoundary,
+  QueryClient,
 } from "@tanstack/react-query";
-import Sidebar from "@/components/Sidebar";
+import { redirect } from "next/navigation";
 
 type Props = {
   params: { workspaceId: string };
   children: React.ReactNode;
 };
 
-const DashboardWorkspaceIdLayout = async ({
-  params: { workspaceId },
-  children,
-}: Props) => {
+const Layout = async ({ params: { workspaceId }, children }: Props) => {
   const auth = await onAuthenticateUser();
-  if (!auth.user?.workspace) {
-    redirect("/auth/sign-in");
-  }
-  if (!auth.user.workspace.length) {
-    redirect("/auth/sign-in");
-  }
-
+  if (!auth.user?.workspace) redirect("/auth/sign-in");
+  if (!auth.user.workspace.length) redirect("/auth/sign-in");
   const hasAccess = await verifyAccessToWorkspace(workspaceId);
 
   if (hasAccess.status !== 200) {
     redirect(`/dashboard/${auth.user?.workspace[0].id}`);
   }
 
-  const query = new QueryClient();
-  await query.prefetchQuery({
-    queryKey: ["workspace-folders"],
-    queryFn: () => getWorkspaceFolders(workspaceId),
-  });
+  if (!hasAccess.data?.workspace) return null;
 
-  await query.prefetchQuery({
-    queryKey: ["user-videos"],
-    queryFn: () => getAllUserVideos(workspaceId),
-  });
+  const query = new QueryClient();
 
   await query.prefetchQuery({
     queryKey: ["user-workspaces"],
@@ -65,7 +49,7 @@ const DashboardWorkspaceIdLayout = async ({
       <div className="flex h-screen w-screen">
         <Sidebar activeWorkspaceId={workspaceId} />
         <div className="w-full pt-28 p-6 overflow-y-scroll overflow-x-hidden">
-          {/* <GlobalHeader workspace={hasAccess.data.workspace} /> */}
+          <GlobalHeader workspace={hasAccess.data.workspace} />
           <div className="mt-4">{children}</div>
         </div>
       </div>
@@ -73,4 +57,4 @@ const DashboardWorkspaceIdLayout = async ({
   );
 };
 
-export default DashboardWorkspaceIdLayout;
+export default Layout;

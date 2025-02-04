@@ -100,3 +100,7 @@
     rgba(23, 23, 23, 1)
   );
 }
+
+::-webkit-scrollbar {
+  width: 0;
+}

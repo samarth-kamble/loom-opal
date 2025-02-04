@@ -6,9 +6,7 @@ import { client } from "../prisma";
 export const verifyAccessToWorkspace = async (workspaceId: string) => {
   try {
     const user = await currentUser();
-    if (!user) {
-      return { status: 403 };
-    }
+    if (!user) return { status: 403 };
 
     const isUserInWorkspace = await client.workSpace.findUnique({
       where: {
@@ -33,7 +31,7 @@ export const verifyAccessToWorkspace = async (workspaceId: string) => {
     });
     return {
       status: 200,
-      data: { workspaceId: isUserInWorkspace },
+      data: { workspace: isUserInWorkspace },
     };
   } catch (error) {
     return {

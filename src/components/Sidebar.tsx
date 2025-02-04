@@ -14,7 +14,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Separator } from "@radix-ui/react-select";
 import { useQueryData } from "@/hooks/useQueryData";
 import { getWorkSpaces } from "@/lib/actions/workspace.actions";
-import { WorkspaceProps } from "@/types/index.type";
+import { NotificationProps, WorkspaceProps } from "@/types/index.type";
 import Modal from "./Modal";
 import { PlusCircle } from "lucide-react";
 import Search from "./global/search/Search";
@@ -23,6 +23,7 @@ import SidebarItem from "./SidebarItem";
 import WorkspacePlaceholder from "./WorkspacePlaceholder";
 import GlobalCard from "./GlobalCard";
 import PaymentButton from "./PaymentButton";
+import { getNotifications } from "@/lib/actions/user.actions";
 
 type Props = {
   activeWorkspaceId: string;
@@ -35,7 +36,13 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
   const { data, isFetched } = useQueryData(["user-workspaces"], getWorkSpaces);
   const menuItems = MENU_ITEMS(activeWorkspaceId);
 
+  const { data: notifications } = useQueryData(
+    ["user-notifications"],
+    getNotifications
+  );
+
   const { data: workspace } = data as WorkspaceProps;
+  const { data: count } = notifications as NotificationProps;
 
   const onChangeActiveWorkspace = (value: string) => {
     router.push(`/dashboard/${value}`);
@@ -124,6 +131,12 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
               selected={pathName === item.href}
               title={item.title}
               key={item.title}
+              notifications={
+                (item.title === "Notifications" &&
+                  count?._count &&
+                  count._count.notification) ||
+                0
+              }
             />
           ))}
         </ul>

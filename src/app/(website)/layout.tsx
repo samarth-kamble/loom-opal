@@ -1,20 +1,12 @@
 import React from "react";
 import LandingPageNavBar from "./_components/LandingPageNavBar";
-import { MaxWidthWrapper } from "./_components/MaxWidthWrapper";
 
 type Props = {
   children: React.ReactNode;
 };
 
 const Layout = ({ children }: Props) => {
-  return (
-    <MaxWidthWrapper>
-      <div className="flex flex-col py-5 px-10 xl:px-0 container">
-        <LandingPageNavBar />
-        {children}
-      </div>
-    </MaxWidthWrapper>
-  );
+  return <div className="font-sans bg-n-8 text-n-1 text-base">{children}</div>;
 };
 
 export default Layout;

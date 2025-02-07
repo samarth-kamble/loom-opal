@@ -1,5 +1,7 @@
+import CreateFolders from "@/components/CreateFolders";
 import CreateWorkspace from "@/components/CreateWorkspace";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Folders from "@/components/Folders";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   getAllUserVideos,
   getWorkspaceFolders,
@@ -48,8 +50,14 @@ const DashboardWorkspaceIdPage = async ({ params: { workspaceId } }: Props) => {
             </TabsList>
             <div className="flex gap-x-3">
               <CreateWorkspace />
+              <CreateFolders workspaceId={workspaceId} />
             </div>
           </div>
+          <section className="py-9">
+            <TabsContent value="videos">
+              <Folders workspaceId={workspaceId} />
+            </TabsContent>
+          </section>
         </Tabs>
       </div>
     </HydrationBoundary>

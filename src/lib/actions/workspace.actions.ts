@@ -160,3 +160,22 @@ export const getWorkSpaces = async () => {
 };
 
 export const createWorkspace = async (name: string) => {};
+
+export const renameFolders = async (folderId: string, name: string) => {
+  try {
+    const folder = await client.folder.update({
+      where: {
+        id: folderId,
+      },
+      data: {
+        name,
+      },
+    });
+    if (folder) {
+      return { status: 200, data: "Folder renamed successfully" };
+    }
+    return { status: 400, data: "Folder not found" };
+  } catch (error) {
+    return { status: 400, data: "An error occurred" };
+  }
+};

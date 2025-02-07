@@ -1,129 +1,125 @@
 "use client";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { ArrowRight, Menu, User } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation"; // Import usePathname
 
-import React from "react";
-import {
-  Sheet,
-  SheetContent,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import React, { useState } from "react";
+import { usePathname } from "next/navigation";
+import { disablePageScroll, enablePageScroll } from "scroll-lock";
+import Link from "next/link";
+import Image from "next/image";
+import opal from "@/assets/opal-logo.svg";
+import { HamburgerMenu } from "./design/Header";
+import LandButton from "./LandButton";
+import MenuSvg from "@/assets/svg/MenuSvg";
+
+export const navigation = [
+  {
+    id: "0",
+    title: "Features",
+    url: "#features",
+  },
+  {
+    id: "1",
+    title: "Pricing",
+    url: "#pricing",
+  },
+  {
+    id: "2",
+    title: "How to use",
+    url: "#how-to-use",
+  },
+  {
+    id: "3",
+    title: "Roadmap",
+    url: "#roadmap",
+  },
+  {
+    id: "4",
+    title: "New account",
+    url: "#signup",
+    onlyMobile: true,
+  },
+  {
+    id: "5",
+    title: "Sign in",
+    url: "#login",
+    onlyMobile: true,
+  },
+];
 
 const LandingPageNavBar = () => {
   const pathname = usePathname();
+  const [openNavigation, setOpenNavigation] = useState(false);
 
-  const isActive = (path: string) =>
-    pathname === path ? "bg-[#7320DD] text-white" : "";
+  const toggleNavigation = () => {
+    if (openNavigation) {
+      setOpenNavigation(false);
+      enablePageScroll();
+    } else {
+      setOpenNavigation(true);
+      disablePageScroll();
+    }
+  };
+
+  const handleClick = () => {
+    if (!openNavigation) return;
+
+    enablePageScroll();
+    setOpenNavigation(false);
+  };
 
   return (
-    <div className="flex w-full justify-between items-center">
-      <div className="text-2xl font-semibold flex items-center gap-x-3">
-        <Image alt="logo" src="/opal-logo.svg" width={40} height={40} />
-        Opal
-      </div>
-      <div className="hidden gap-x-10 items-center lg:flex">
-        <Link
-          href="/"
-          className={`py-2 px-5 font-semibold text-lg rounded-full hover:bg-[#7320DD]/80 ${isActive(
-            "/"
-          )}`}
-        >
-          Home
+    <div
+      className={`fixed top-0 left-0 w-full z-50  border-b border-n-6 lg:bg-n-8/90 lg:backdrop-blur-sm ${
+        openNavigation ? "bg-n-8" : "bg-n-8/90 backdrop-blur-sm"
+      }`}
+    >
+      <div className="flex items-center px-5 lg:px-7.5 xl:px-10 max-lg:py-4">
+        <Link className="block w-[12rem] xl:mr-8 flex-row" href="/">
+          <Image src={opal} width={35} height={35} alt="Opal" />
         </Link>
-        <Link
-          href="/pricing"
-          className={`py-2 px-5 font-semibold text-lg rounded-full hover:bg-[#7320DD]/80 ${isActive(
-            "/pricing"
-          )}`}
+
+        <nav
+          className={`${
+            openNavigation ? "flex" : "hidden"
+          } fixed top-[5rem] left-0 right-0 bottom-0 bg-n-8 lg:static lg:flex lg:mx-auto lg:bg-transparent`}
         >
-          Pricing
-        </Link>
-        <Link
-          href="/contact"
-          className={`py-2 px-5 font-semibold text-lg rounded-full hover:bg-[#7320DD]/80 ${isActive(
-            "/contact"
-          )}`}
-        >
-          Contact
-        </Link>
-      </div>
-      <div className="flex flex-row gap-3">
-        <SignedOut>
-          <Link href="/auth/sign-in">
-            <Button className="text-base flex gap-x-2">
-              <User fill="#000" />
-              Login
-            </Button>
-          </Link>
-        </SignedOut>
-        <SignedIn>
-          <div className="flex flex-row gap-3">
-            <Link
-              href={`/dashboard`}
-              className={buttonVariants({
-                variant: "ghost",
-                className: "text-2xl",
-              })}
-            >
-              Dashboard <ArrowRight />
-            </Link>
-            <UserButton afterSignOutUrl="/" />
+          <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
+            {navigation.map((item) => (
+              <a
+                key={item.id}
+                href={item.url}
+                onClick={handleClick}
+                className={`block relative font-code text-2xl uppercase text-n-1 transition-colors hover:text-color-1 ${
+                  item.onlyMobile ? "lg:hidden" : ""
+                } px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-xs lg:font-semibold ${
+                  typeof window !== "undefined" &&
+                  item.url === window.location.hash
+                    ? "z-2 lg:text-n-1"
+                    : "lg:text-n-1/50"
+                } lg:leading-5 lg:hover:text-n-1 xl:px-12`}
+              >
+                {item.title}
+              </a>
+            ))}
           </div>
-        </SignedIn>
-        <div>
-          <Sheet>
-            <SheetTrigger>
-              <Menu className="w-8 h-8 sm:hidden mt-1" />
-            </SheetTrigger>
-            <SheetContent className="w-[400px] sm:w-[540px]" side={"right"}>
-              <SheetTitle>
-                <Link
-                  href={"/"}
-                  className="flex flex-row gap-2 items-center justify-center"
-                >
-                  <Image
-                    src={"/opal-logo.svg"}
-                    height={40}
-                    width={40}
-                    alt="Opal Logo"
-                  />
-                  <p className="text-2xl font-bold mt-1">Opal</p>
-                </Link>
-              </SheetTitle>
-              <div className="flex flex-col gap-4 justify-center items-start md:items-center space-y-3 mt-5">
-                <Link
-                  href="/"
-                  className={`py-2 px-5 font-semibold text-lg rounded-full hover:bg-[#7320DD]/80 ${isActive(
-                    "/"
-                  )}`}
-                >
-                  Home
-                </Link>
-                <Link
-                  href="/pricing"
-                  className={`py-2 px-5 font-semibold text-lg rounded-full hover:bg-[#7320DD]/80 ${isActive(
-                    "/pricing"
-                  )}`}
-                >
-                  Pricing
-                </Link>
-                <Link
-                  href="/contact"
-                  className={`py-2 px-5 font-semibold text-lg rounded-full hover:bg-[#7320DD]/80 ${isActive(
-                    "/contact"
-                  )}`}
-                >
-                  Contact
-                </Link>
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
+          <HamburgerMenu />
+        </nav>
+        <Link
+          href="/auth/sign-up"
+          className="button hidden mr-8 text-n-1/50 transition-colors hover:text-n-1 lg:block"
+        >
+          New account
+        </Link>
+        <LandButton className="hidden lg:flex" href="/auth/sign-in">
+          Sign in
+        </LandButton>
+
+        <LandButton
+          className="ml-auto lg:hidden"
+          px="px-3"
+          onClick={toggleNavigation}
+        >
+          <MenuSvg openNavigation={openNavigation} />
+        </LandButton>
       </div>
     </div>
   );

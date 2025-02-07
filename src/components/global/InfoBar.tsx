@@ -24,7 +24,7 @@ const InfoBar = () => {
           <VideoRecorderIcon />
           <span className="flex items-center gap-2">Record</span>
         </Button>
-        <UserButton />
+        <UserButton afterSignOutUrl="/" />
       </div>
     </header>
   );

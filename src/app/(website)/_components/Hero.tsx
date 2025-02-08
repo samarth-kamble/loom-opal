@@ -16,6 +16,7 @@ import { ScrollParallax } from "react-just-parallax";
 import Generating from "./Generating";
 import { BackgroundCircles, BottomLine, Gradient } from "./design/Hero";
 import Notification from "./Notification";
+import CompanyLogos from "./CompanyLogos";
 
 export const heroIcons = [homeSmile, file02, searchMd, plusSquare];
 
@@ -99,6 +100,7 @@ const Hero = () => {
             />
           </div>
           <BackgroundCircles />
+          <CompanyLogos className="hidden relative z-10 mt-20 lg:black" />
         </div>
       </div>
       <BottomLine />

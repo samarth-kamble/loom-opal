@@ -26,20 +26,6 @@ import {
 
 export const heroIcons = [homeSmile, file02, searchMd, plusSquare];
 
-export const brainwaveServices = [
-  "Photo generating",
-  "Photo enhance",
-  "Seamless Integration",
-];
-
-export const brainwaveServicesIcons = [
-  recording03,
-  recording01,
-  disc02,
-  chromecast,
-  sliders04,
-];
-
 export const roadmap = [
   {
     id: "0",

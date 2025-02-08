@@ -2,6 +2,7 @@ import ButtonGradient from "./_components/ButtonGradient";
 import Collaboration from "./_components/Collaboration";
 import Hero from "./_components/Hero";
 import LandingPageNavBar from "./_components/LandingPageNavBar";
+import Services from "./_components/Services";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
         <LandingPageNavBar />
         <Hero />
         <Collaboration />
+        <Services />
       </div>
       <ButtonGradient />
     </>

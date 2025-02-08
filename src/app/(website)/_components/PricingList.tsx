@@ -63,7 +63,7 @@ const PricingList = () => {
           </div>
           <LandButton
             className="w-full mb-6"
-            href={item.price ? "/pricing" : "mailto:contact@jsmastery.pro"}
+            href={item.price ? "/pricing" : "mailto:kamble.samarth91@gmail.com"}
             white={!!item.price}
           >
             {item.price ? "Get started" : "Contact us"}

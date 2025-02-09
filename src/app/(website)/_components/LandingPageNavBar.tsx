@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import Link from "next/link";
 import Image from "next/image";
-import opal from "@/assets/opal-logo.svg";
+import OpalLogo from "../../../../public/opal-logo.png";
 import { HamburgerMenu } from "./design/Header";
 import LandButton from "./LandButton";
 import MenuSvg from "@/assets/svg/MenuSvg";
@@ -64,7 +64,10 @@ const LandingPageNavBar = () => {
     >
       <div className="flex items-center px-5 lg:px-7.5 xl:px-10 max-lg:py-4">
         <Link className="block w-[12rem] xl:mr-8 flex-row" href="/">
-          <Image src={opal} width={35} height={35} alt="Opal" />
+          <div className="flex items-center gap-2 font-semibold text-[20px]">
+            <Image src={OpalLogo} width={35} height={35} alt="Opal" />
+            <span>Opal</span>
+          </div>
         </Link>
 
         <nav

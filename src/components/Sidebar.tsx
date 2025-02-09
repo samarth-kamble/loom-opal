@@ -17,7 +17,7 @@ import { NotificationProps, WorkspaceProps } from "@/types/index.type";
 import Modal from "./Modal";
 import { Menu, PlusCircle } from "lucide-react";
 import Search from "./global/search/Search";
-import { MENU_ITEMS } from "@/constants";
+import { MENU_ITEMS } from "../constants/index";
 import SidebarItem from "./SidebarItem";
 import WorkspacePlaceholder from "./WorkspacePlaceholder";
 import GlobalCard from "./GlobalCard";
@@ -26,6 +26,8 @@ import { getNotifications } from "@/lib/actions/user.actions";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { Button } from "./ui/button";
 import InfoBar from "./global/InfoBar";
+
+import OpalLogo from "../../public/opal-logo.png";
 
 type Props = {
   activeWorkspaceId: string;
@@ -57,7 +59,7 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
   const SidebarSection = (
     <div className="bg-[#111111] flex-none relative p-4 h-full w-[250px] flex flex-col gap-4 items-center overflow-auto">
       <div className="bg-[#111111] p-4 flex gap-2 justify-center items-center mb-4 absolute top-0 left-0 right-0 ">
-        <Image src="/opal-logo.svg" height={40} width={40} alt="logo" />
+        <Image src={OpalLogo} height={40} width={40} alt="logo" />
         <p className="text-2xl font-semibold">Opal</p>
       </div>
       <Select
@@ -113,7 +115,7 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
       <p className="w-full text-[#9D9D9D] font-bold mt-4">Menu</p>
       <nav className="w-full">
         <ul>
-          {menuItems.map((item) => (
+          {menuItems.map((item: any) => (
             <SidebarItem
               href={item.href}
               icon={item.icon}

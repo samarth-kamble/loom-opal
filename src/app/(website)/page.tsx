@@ -5,6 +5,7 @@ import Hero from "./_components/Hero";
 import LandingPageNavBar from "./_components/LandingPageNavBar";
 
 import PricingCard from "./_components/PricingCard";
+import Roadmap from "./_components/Roadmap";
 import Services from "./_components/Services";
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
         <Collaboration />
         <Services />
         <PricingCard />
+        <Roadmap />
         <Footer />
       </div>
       <ButtonGradient />

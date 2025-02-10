@@ -29,12 +29,18 @@ export type FoldersProps = {
 
 const Folders = ({ workspaceId }: Props) => {
   // Get folders
-  // Optimistic variable
-
   const { data, isFetched } = useQueryData(["workspace-folders"], () =>
     getWorkspaceFolders(workspaceId)
   );
+
   const { latestVariables } = useMutationDataState(["create-folder"]);
+
+  const { status, data: folders } = data as FoldersProps;
+
+  if (isFetched && folders) {
+  }
+
+  // Optimistic variable
 
   return (
     <div className="flex flex-col gap-4">
@@ -49,8 +55,32 @@ const Folders = ({ workspaceId }: Props) => {
         </div>
       </div>
       <div
-        className={cn("flex items-center gap-4 overflow-x-auto w-full")}
-      ></div>
+        className={cn(
+          status !== 200 && "justify-center",
+          "flex items-center gap-4 overflow-x-auto w-full"
+        )}
+      >
+        {status !== 200 ? (
+          <p className="text-neutral-300">No Folders in Workspace</p>
+        ) : (
+          <>
+            {latestVariables && latestVariables.status === "pending" && (
+              <Folder
+                name={latestVariables.variables.name}
+                id={latestVariables.variables.id}
+              />
+            )}
+            {folders.map((folder) => (
+              <Folder
+                key={folder.id}
+                name={folder.name}
+                id={folder.id}
+                count={folder._count.videos}
+              />
+            ))}
+          </>
+        )}
+      </div>
     </div>
   );
 };

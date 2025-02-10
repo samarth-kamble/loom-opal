@@ -179,3 +179,25 @@ export const renameFolders = async (folderId: string, name: string) => {
     return { status: 400, data: "An error occurred" };
   }
 };
+
+export const createFolder = async (workspaceId: string) => {
+  try {
+    const isNewFolders = await client.workSpace.update({
+      where: {
+        id: workspaceId,
+      },
+      data: {
+        folders: {
+          create: {
+            name: "Untitled",
+          },
+        },
+      },
+    });
+    if (isNewFolders) {
+      return { status: 200, message: "Folder created successfully" };
+    }
+  } catch (error) {
+    return { status: 400, message: "An error occurred" };
+  }
+};

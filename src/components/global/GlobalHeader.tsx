@@ -15,7 +15,7 @@ const GlobalHeader = ({ workspace }: Props) => {
       <span className="text-[#707070] text-xs">
         {pathName.includes("video") ? "" : workspace.type.toLocaleUpperCase()}
       </span>
-      <h1 className="text-4xl font-bold">
+      <h1 className="text-4xl font-bold text-[#9D9D9D]">
         {pathName && !pathName.includes("folder") && !pathName.includes("video")
           ? pathName.charAt(1).toUpperCase() + pathName.slice(2).toLowerCase()
           : pathName.includes("video")

@@ -66,7 +66,9 @@ const LandingPageNavBar = () => {
         <Link className="block w-[12rem] xl:mr-8 flex-row" href="/">
           <div className="flex items-center gap-2 font-semibold text-[20px]">
             <Image src={OpalLogo} width={35} height={35} alt="Opal" />
-            <span>Opal</span>
+            <span className="text-2xl font-semibold text-n-1 font-grotesk uppercase">
+              Opal
+            </span>
           </div>
         </Link>
 
@@ -111,7 +113,11 @@ const LandingPageNavBar = () => {
         <SignedIn>
           <div className="flex gap-5">
             <Link href="/dashboard">
-              <Button size={"sm"} className="font-semibold">
+              <Button
+                size={"sm"}
+                className="font-semibold hidden lg:flex bg-black"
+                variant={"outline"}
+              >
                 Dashboard
               </Button>
             </Link>

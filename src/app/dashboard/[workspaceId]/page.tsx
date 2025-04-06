@@ -36,14 +36,14 @@ const DashboardWorkspaceIdPage = async ({ params: { workspaceId } }: Props) => {
           <div className="flex w-full justify-between items-center">
             <TabsList className="bg-transparent gap-2 pl-0">
               <TabsTrigger
-                className="p-[13px] px-6 rounded-full data-[state=active]:bg-[#252525]"
+                className="p-[13px] px-6 rounded-full text-n-1 data-[state=active]:bg-[#252525] data-[state=active]:text-n-1"
                 value="videos"
               >
                 Videos
               </TabsTrigger>
               <TabsTrigger
                 value="archive"
-                className="p-[13px] px-6 rounded-full data-[state=active]:bg-[#252525]"
+                className="p-[13px] px-6 rounded-full text-n-1 data-[state=active]:bg-[#252525] data-[state=active]:text-n-1"
               >
                 Archive
               </TabsTrigger>

@@ -60,7 +60,9 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
     <div className="bg-[#111111] flex-none relative p-4 h-full w-[250px] flex flex-col gap-4 items-center overflow-auto">
       <div className="bg-[#111111] p-4 flex gap-2 justify-center items-center mb-4 absolute top-0 left-0 right-0 ">
         <Image src={OpalLogo} height={40} width={40} alt="logo" />
-        <p className="text-2xl font-semibold">Opal</p>
+        <p className="text-2xl font-semibold text-n-1 font-grotesk uppercase">
+          Opal
+        </p>
       </div>
       <Select
         defaultValue={activeWorkspaceId}
@@ -144,7 +146,7 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
       )}
 
       <nav className="w-full">
-        <ul className="h-[150px] overflow-auto overflow-x-hidden fade-layer">
+        <ul className="h-[150px] overflow-auto overflow-x-hidden fade-layer text-[#9D9D9D]">
           {workspace.workspace.length > 0 &&
             workspace.workspace.map(
               (item) =>
